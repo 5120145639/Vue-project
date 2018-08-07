@@ -2,28 +2,37 @@
     <div>
         <!-- 轮播图 -->
         <mt-swipe :auto="4000">
-        <mt-swipe-item v-for="item in lunbotuList" :key="item.url">
+        <!-- <mt-swipe-item v-for="item in lunbotuList" :key="item.url">
             <img :src="item.img" alt="">
+        </mt-swipe-item> -->
+        <mt-swipe-item >
+            <img src="#" alt="">1
+        </mt-swipe-item>
+        <mt-swipe-item >
+            <img src="#" alt="">2
+        </mt-swipe-item>
+        <mt-swipe-item >
+            <img src="#" alt="">3
         </mt-swipe-item>
         </mt-swipe>
 
         <ul class="mui-table-view mui-grid-view mui-grid-9">
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-                <a href="#">
+                <router-link to="/home/newslist">
                     <span class="mui-icon mui-icon-home"></span>
-                    <div class="mui-media-body">Home</div>
-                </a>
+                    <div class="mui-media-body">新闻资讯</div>
+                </router-link>
             </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
                 <a href="#">
                     <span class="mui-icon mui-icon-email"><span class="mui-badge">5</span></span>
-                    <div class="mui-media-body">Email</div>
+                    <div class="mui-media-body">图片分享</div>
                 </a>
             </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
                 <a href="#">
                     <span class="mui-icon mui-icon-chatbubble"></span>
-                    <div class="mui-media-body">Chat</div>
+                    <div class="mui-media-body">商品购买</div>
                 </a>
             </li>
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
@@ -55,23 +64,23 @@ import { Toast } from "mint-ui";
 export default {
   data() {
     return {
-      lunbotuList: []
+    //   lunbotuList: []
     };
   },
   created() {
-    this.getLunbotu();
+    // this.getLunbotu();
   },
   methods: {
-    getLunbotu() {
-      this.$http.get("http://vue.studyit.ip/api/getlunbo").then(result => {
-        console.log(result.body);
-        if (result.body.status === 0) {
-          this.lunbotuList = result.body.message;
-        } else {
-          Toast("加载失败");
-        }
-      });
-    }
+    // getLunbotu() {
+    //   this.$http.get("http://vue.studyit.ip/api/getlunbo").then(result => {
+    //     console.log(result.body);
+    //     if (result.body.status === 0) {
+    //       this.lunbotuList = result.body.message;
+    //     } else {
+    //       Toast("加载失败");
+    //     }
+    //   });
+    // }
   }
 };
 </script>
