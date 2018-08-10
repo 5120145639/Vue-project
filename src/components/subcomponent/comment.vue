@@ -2,8 +2,8 @@
     <div class="cmt-container">
         <h3>发表评论</h3>
         <hr>
-        <textarea name="" id="" cols="30" rows="0"></textarea>
-        <mt-button type="primary" size="large">发表评论</mt-button>
+        <textarea v-model="msg"></textarea>
+        <mt-button type="primary" size="large" @click="postComment">发表评论</mt-button>
 
         <div class="cmt-list">
             <div class="cmt-item" v-for="(item,i) in comments" :key="item.add_time">
@@ -11,7 +11,6 @@
                     第{{i+1}}楼&nbsp;&nbsp;用户：{{item.user_name}}&nbsp;&nbsp;发表时间:{{item.add_time|dateFormat}}
                 </div>
                 <div class="cmt-body">
-                    锄禾日当午
                     {{item.content==="undefined"?"此用户很懒":item.content}}
                 </div>
             </div>
@@ -25,7 +24,8 @@
         data(){
             return {
                 pageindex:1,//默认展示第一页
-                comments:[]
+                comments:[],
+                msg:''//评论输入的内容
             };
         },
         created(){
@@ -44,6 +44,19 @@
             getmore(){//加载更多
                 this.pageindex++;
                 this.getComments();
+            },
+            postComment(){
+                if(this.msg.trim().length === 0){
+                    Toast("评论内容不能为空");
+                    return;
+                }
+                this.$http.post("api/postcomment/"+this.$route.params.id,{comment:this.msg.trim()}).then(function(result){
+                    if(result.body.status === 0){
+                        var cmt = {user_name:"匿名用户",add_time:Date.now(),content:this.msg.trim()}
+                        this.comments.unshift(cmt);
+                        this.msg = "";
+                    }
+                });
             }
         },
         props:["id"]
