@@ -22,10 +22,11 @@
                     <p class="price">
                         市场价:<del>￥{{goodsinfo.market_price}}</del>&nbsp;&nbsp;销售价:<span class="now_price">￥{{goodsinfo.sell_price}}</span>
                     </p>
-                    <p>购买数量:<numbox></numbox></p>
+                    <p>购买数量:<numbox @getcount="getSelectedCount" :max="goodsinfo.stock_quantity"></numbox></p>
                     <p>
                         <mt-button type="primary" size="small">立即购买</mt-button>
                         <mt-button type="danger" size="small" @click="addToShopCar">加入购物车</mt-button>
+                        <!-- 实现点击加入购物车，拿到选择数量 （子组件向父组件传值）-->
                     </p>
                 </div>
             </div>				
@@ -57,6 +58,7 @@
                 lunbotu:[],//轮播图数据
                 goodsinfo:{},//获取到商品的信息
                 ballFlag:false,
+                selectedCount:1,//购买数量
             }
         },
         created(){
@@ -92,6 +94,15 @@
             },
             addToShopCar(){
                 this.ballFlag = !this.ballFlag;
+                // {id:商品的id,count:购买数量,price:商品价格,selected:false}
+                var goodsinfo = {
+                    id:this.id,
+                    count:this.selectedCount,
+                    price:this.goodsinfo.sell_price,
+                    selected:true
+                };
+                //调用store中的mutations来将商品加入购物车
+                this.$store.commit("addToCar",goodsinfo);
             },
             beforeEnter(el){
                 el.style.transform = "translate(0,0)";
@@ -112,6 +123,9 @@
             afterEnter(el){
                 this.ballFlag = !this.ballFlag;
             },
+            getSelectedCount(count){
+                this.selectedCount = count;
+            }
         },
         components:{
             swiper,
